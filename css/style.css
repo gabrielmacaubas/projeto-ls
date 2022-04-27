@@ -1,0 +1,15 @@
+body {
+  background-color: black;
+}
+
+.card-header {
+  background-color: #20c9965d;
+}
+
+.navbar {
+  background-color: #20c9965d;
+}
+
+.card {
+  max-width: 30rem;
+}
