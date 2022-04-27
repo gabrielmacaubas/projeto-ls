@@ -2,12 +2,16 @@ body {
   background-color: black;
 }
 
-.card-header {
+.card-header, .navbar {
   background-color: #20c9965d;
 }
 
-.navbar {
-  background-color: #20c9965d;
+button {
+  background-color: #20c9965d !important;
+}
+
+h2 {
+  color: white;
 }
 
 .card {
