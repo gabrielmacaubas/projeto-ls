@@ -1,31 +1,48 @@
 import data from './dados/data.js';
 
+const playlistsDeck = document.querySelector('#playlists');
+const songsDeck = document.querySelector('#songs')
+
 for (const playlist of data){
-    const playlistDeck = document.querySelector('#playlists');
 
     const play = createPlaylistView(playlist);
 
-    playlistDeck.insertAdjacentHTML('beforeend', play);
+    playlistsDeck.insertAdjacentHTML('beforeend', play);
 
 }
 
-
 function createPlaylistView(playlist) {
-    const playlistName = `<li class="list-group-item" id="play">${playlist.name}</li>`;
-    return playlistName;
+    const nameOfPlaylist = playlist.name
+    const idOfPlaylist = playlist.id
+    const playlistCard = `<li class="list-group-item ${idOfPlaylist}" id="play">${playlist.name}</li>`;
+    return playlistCard;
  
 }
 
-function showSongs(){
-    const songslistDeck = document.querySelector('#songs');
-
-    const song = createPlaylistView(song);
-    const songName = `<li class="list-group-item" id="play">${playlist.name}</li>`;
-    songlistDeck.insertAdjacentHTML('beforeend', song);
+function reset(id) {
+    document.getElementById(id).innerHTML = "";
 }
 
-const a = document.querySelector('#play');
+function showSongs(id) {
+    reset("songs");
 
-a.onclick = function () {
-    showSongs();
-};
+    const songs = data[id].songs;
+
+    document.querySelector('.songs-title').innerText = `${data[id].name}`;
+
+
+    for (const song of songs){
+        const playlistCard = `<li class="list-group-item" id="song">${song}</li>`;
+        
+        songsDeck.insertAdjacentHTML('beforeend', playlistCard)
+    }
+
+    
+
+}
+
+const button = document.querySelectorAll('#play');
+
+button.forEach((btn) => {
+    btn.addEventListener("click", function(){showSongs(btn.classList[1]-1)});
+});

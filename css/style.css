@@ -13,3 +13,8 @@ body {
 .card {
   max-width: 30rem;
 }
+
+#play:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
