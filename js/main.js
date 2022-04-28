@@ -8,6 +8,16 @@ const submitPlay = document.querySelector('#submitPlay')
 const formPlaylist = document.querySelector('#formPlaylist')
 const formSong = document.querySelector('#formSong')
 
+const buttonHTML = `<button
+                      class="btn btn-light border-2 border-warning fw-bold float-end text-light"
+                      type="button"
+                      id="btnNewCard"
+                      data-bs-toggle="offcanvas" 
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                    >
+                    +
+                    </button>`
 
 for (const playlist of data){
 
@@ -20,7 +30,7 @@ for (const playlist of data){
 function createPlaylistView(playlist) {
     const nameOfPlaylist = playlist.name
     const idOfPlaylist = playlist.id
-    const playlistCard = `<li class="list-group-item ${idOfPlaylist}" id="play">${nameOfPlaylist}</li>`;
+    const playlistCard = `<li class="list-group-item ${idOfPlaylist}" id="data">${nameOfPlaylist}</li>`;
 
     return playlistCard;
  
@@ -30,16 +40,21 @@ function reset(id) {
     document.getElementById(id).innerHTML = "";
 }
 
+function resetForm() {
+    formPlaylist.InputSong.value= "";
+}
+
 function showSongs(id) {
     reset("songs");
-
+    
     const songs = data[id].songs;
 
-    document.querySelector('.songs-title').innerText = `${data[id].name}`;
-
+    document.querySelector('.songs-title').innerHTML = `${data[id].name}
+                                                        ${buttonHTML}`;
+    console.log(data)
 
     for (const song of songs){
-        const playlistCard = `<li class="list-group-item" id="song">${song}</li>`;
+        const playlistCard = `<li class="list-group-item" id="data">${song}</li>`;
         
         songsDeck.insertAdjacentHTML('beforeend', playlistCard)
 
@@ -85,12 +100,10 @@ formPlaylist.onsubmit = function(e){
     playlistsDeck.insertAdjacentHTML('beforeend', newPlaylist);
 
     data.push(temp);
-    
-    updatePlaylistOptions();
 
-    console.log(data);
-
+    formPlaylist.reset();
     offCanvas.hide();
+    updatePlaylistOptions();
 }
 
 formSong.onsubmit = function(e){ 
@@ -109,14 +122,12 @@ formSong.onsubmit = function(e){
     
     data[newSongId-1].songs.push(newSong)
 
-    console.log(data);
-
     offCanvas.hide();
-
+    formSong.reset();
     updatePlaylistOptions();
 }
 
-const button = document.querySelectorAll('#play');
+const button = document.querySelectorAll('#data');
 
 button.forEach((btn) => {btn.addEventListener("click", function(){
     showSongs(btn.classList[1]-1)
