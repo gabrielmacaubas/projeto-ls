@@ -136,7 +136,6 @@ function addClickableEvent(){
         el.parentNode.replaceChild(elClone, el);
 
     });
-
     button = document.querySelectorAll('#data');
 
     button.forEach((btn) => {btn.addEventListener("click", function showSongs() {
