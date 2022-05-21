@@ -103,7 +103,6 @@ formSong.onsubmit = function(e){
     
     data[newSongId-1].songs.push(newSong)
 
-    
     offCanvas.hide();
     formSong.reset();
     updatePlaylistOptions();
