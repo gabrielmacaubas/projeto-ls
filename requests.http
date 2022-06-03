@@ -1,0 +1,9 @@
+### create new music data
+
+POST http://localhost:3000/data
+Content-Type: application/json
+
+{
+    "name": "a",
+    "songs": ["b", "c", "d", "e", "f"]
+}

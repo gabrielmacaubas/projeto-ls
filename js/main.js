@@ -1,4 +1,4 @@
-import data from './dados/data.js';
+import data from './dados/db.json' assert { type: "json" };
 
 const playlistsDeck = document.querySelector('#playlists');
 const songsDeck = document.querySelector('#songs');
@@ -7,6 +7,9 @@ const btnCanvas = document.querySelectorAll('#btnNewCard');
 const submitPlay = document.querySelector('#submitPlay')
 const formPlaylist = document.querySelector('#formPlaylist')
 const formSong = document.querySelector('#formSong')
+const songsTitle = document.querySelector('#songsTitle')
+const alldata = data["data"]
+const api = 'http://localhost:3000';
 
 const buttonHTML = `<button
                       class="btn btn-light border-2 border-warning fw-bold float-end text-light"
@@ -19,7 +22,7 @@ const buttonHTML = `<button
                     +
                     </button>`
 
-for (const playlist of data){
+for (const playlist of alldata){
 
     const play = createPlaylistView(playlist);
 
@@ -42,8 +45,9 @@ function reset(id) {
 
 function updatePlaylistOptions(){
     reset("dselect");
-
-    for (const playlist of data){
+    console.log("b")
+    for (const playlist of alldata){
+        console.log("a")
         const nameOfPlaylist = playlist.name;
         const idOfPlaylist = playlist.id;
 
@@ -57,7 +61,7 @@ function updatePlaylistOptions(){
 btnCanvas.forEach((btn) => {btn.onclick=function(){updatePlaylistOptions()}})
 submitPlay.onclick = function(){ updatePlaylistOptions() }
 
-formPlaylist.onsubmit = function(e){ 
+formPlaylist.onsubmit = async function(e){ 
 
     e.preventDefault();
 
@@ -68,16 +72,22 @@ formPlaylist.onsubmit = function(e){
     const inputPlaylist = document.querySelector('#inputPlaylist');
 
     const temp = {
-        id: data.length+1,
-        name: inputPlaylist.value,
-        songs: []
+        "name": inputPlaylist.value,
+        "songs": []
     }
 
     const newPlaylist = createPlaylistView(temp);
 
     playlistsDeck.insertAdjacentHTML('beforeend', newPlaylist);
 
-    data.push(temp);
+    const res = await fetch(`${api}/data`, {
+        method: 'post',
+        body: JSON.stringify(temp),
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+         },
+    });
+    
 
     formPlaylist.reset();
     offCanvas.hide();
@@ -85,9 +95,11 @@ formPlaylist.onsubmit = function(e){
     addClickableEvent();
     updateSongs(temp.id-1);
 
+    return await res.json();
+
 }
 
-formSong.onsubmit = function(e){ 
+formSong.onsubmit = async function(e){ 
 
     e.preventDefault();
 
@@ -100,24 +112,39 @@ formSong.onsubmit = function(e){
     const newSong = inputSong.value;
     
     const newSongId = playlistsOptions.options[playlistsOptions.selectedIndex].id;
+    console.log(newSongId, newSong)
+
+    const temp = {
+        "name": alldata[newSongId-1].name,
+        "songs": [...alldata[newSongId-1].songs, newSong]
+    }
+
+    e.preventDefault();
+    const res = await fetch(`${api}/data/${newSongId}`, {
+        method: 'put',
+        body: JSON.stringify(temp),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      });
     
     data[newSongId-1].songs.push(newSong)
 
-    
     offCanvas.hide();
     formSong.reset();
     updatePlaylistOptions();
 
     updateSongs(newSongId-1);
 
+    return await res.json();
 }
 
 function updateSongs(id){
     reset("songs");
     
-    const songs = data[id].songs;
+    const songs = alldata[id].songs;
 
-    document.querySelector('.songs-title').innerHTML = `${data[id].name}
+    document.querySelector('.songs-title').innerHTML = `${alldata[id].name}
                                                         ${buttonHTML}`
 
     for (const song of songs){
@@ -142,10 +169,9 @@ function addClickableEvent(){
         reset("songs");
 
         const id = btn.classList[1]-1
-        const songs = data[id].songs;
-    
-        document.querySelector('.songs-title').innerHTML = `${data[id].name}
-                                                            ${buttonHTML}`
+        const songs = alldata[id].songs;
+
+        songsTitle.innerHTML = `${alldata[id].name}`
 
         for (const song of songs){
             const playlistCard = `<li class="list-group-item" id="data">${song}</li>`;
