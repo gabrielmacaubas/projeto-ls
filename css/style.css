@@ -18,7 +18,12 @@ h2 {
   max-width: 30rem;
 }
 
+#songsTitle {
+  height: 0;
+  margin: 0;
+};
+
 #data:hover {
   text-decoration: underline;
   cursor: pointer;
-}
+};

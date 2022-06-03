@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/gabrielmacaubas/projeto-ls/issues"
   },
-  "homepage": "https://github.com/gabrielmacaubas/projeto-ls#readme"
+  "homepage": "https://github.com/gabrielmacaubas/projeto-ls#readme",
+  "dependencies": {
+    "json-server": "^0.17.0"
+  }
 }
