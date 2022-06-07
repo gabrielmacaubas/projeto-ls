@@ -1,15 +1,11 @@
-import data from './dados/db.json' assert { type: "json" };
-
 const playlistsDeck = document.querySelector('#playlists');
 const songsDeck = document.querySelector('#songs');
 const playlistsOptions = document.querySelector('#dselect');
 const btnCanvas = document.querySelectorAll('#btnNewCard');
-const submitPlay = document.querySelector('#submitPlay')
-const formPlaylist = document.querySelector('#formPlaylist')
-const formSong = document.querySelector('#formSong')
-const songsTitle = document.querySelector('#songsTitle')
-const alldata = data["data"]
-const api = 'http://localhost:3000';
+const submitPlay = document.querySelector('#submitPlay');
+const formPlaylist = document.querySelector('#formPlaylist');
+const formSong = document.querySelector('#formSong');
+const songsTitle = document.querySelector('#songsTitle');
 
 const buttonHTML = `<button
                       class="btn btn-light border-2 border-warning fw-bold float-end text-light"
@@ -21,6 +17,17 @@ const buttonHTML = `<button
                     >
                     +
                     </button>`
+
+const api = 'https://json-server.gabrielmacaubas.repl.co';
+
+async function readAll() {
+    const res = await fetch(`${api}/data`);
+    
+    return await res.json();
+}
+
+const alldata = await readAll();
+
 
 for (const playlist of alldata){
 
@@ -45,9 +52,8 @@ function reset(id) {
 
 function updatePlaylistOptions(){
     reset("dselect");
-    console.log("b")
+    
     for (const playlist of alldata){
-        console.log("a")
         const nameOfPlaylist = playlist.name;
         const idOfPlaylist = playlist.id;
 
