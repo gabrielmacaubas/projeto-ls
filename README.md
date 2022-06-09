@@ -1,3 +1,4 @@
 # projeto-ls
- Projeto da disciplina Linguagem de Script
+ Projeto realizado na disciplina de HTML, CSS, Bootstrap, JavaScript, Async Requests (Fetch API e JSON Server) e GitHub Pages.
+ 
  ![Screenshot](Screenshot.png)
